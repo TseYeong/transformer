@@ -9,7 +9,7 @@ class BasePositionalEncoding(nn.Module, ABC):
     Class of positional encoding
     """
 
-    def __init__(self, d_model: int, dropout: float = 0.1):
+    def __init__(self, dropout: float = 0.1):
         super().__init__()
         self.dropout = nn.Dropout(p=dropout)
         
@@ -30,7 +30,7 @@ class AbsolutePositionalEncoding(BasePositionalEncoding):
     """
 
     def __init__(self, d_model: int, dropout: float = 0.1, max_len: int = 5000):
-        super().__init__(d_model, dropout)
+        super().__init__(dropout)
 
         pe = torch.zeros(max_len, d_model)
         position = torch.arange(0, max_len, dtype=torch.float).unsqueeze(1)  # [max_len, 1]

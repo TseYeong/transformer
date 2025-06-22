@@ -2,10 +2,12 @@ import torch
 import torch.nn as nn
 from abc import ABC, abstractmethod
 
+from src.layers.scale_dot_product_attention import ScaleDotProductAttention
+
 
 class BaseAttention(nn.Module, ABC):
-    def __int__(self, d_model: int, n_heads: int, dropout: int = 0.1):
-        super().__int__()
+    def __init__(self, d_model: int, n_heads: int, dropout: int = 0.1):
+        super().__init__()
         self.d_model = d_model
         self.n_heads = n_heads
         self.dropout = dropout
@@ -16,6 +18,8 @@ class BaseAttention(nn.Module, ABC):
         self.k_proj = nn.Linear(d_model, d_model)
         self.v_proj = nn.Linear(d_model, d_model)
         self.o_proj = nn.Linear(d_model, d_model)
+
+        self.attn = ScaleDotProductAttention(dropout)
 
     @abstractmethod
     def forward(self, x_q, x_kv):
